@@ -1,0 +1,15 @@
+
+version: '3.8'
+services:
+  dev_db:
+    image: postgres
+    ports: 
+      - 5434:5432
+    environment:
+      POSTGRES_USER: kingsley
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: payment_db
+    networks:
+      - innovate
+networks:
+  innovate:
