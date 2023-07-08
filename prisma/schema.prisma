@@ -21,3 +21,45 @@ model User{
   createdAt          DateTime       @default(now()) @map("created_at")
   updatedAt          DateTime       @updatedAt @map("updated_at")
 }
+
+model UtilityCategory{
+  id                 Int            @id @default(autoincrement())
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  categoryName CategoryName 
+  provider    CategoryProvider @default(FLUTTERWAVE)
+  parameter    String
+  products     UtilityProduct[]
+  @@unique([categoryName, provider])
+}
+
+model UtilityProduct {
+  id               Int             @id @default(autoincrement())
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+  categoryId       Int
+  billerName       String
+  billerCode       String
+  itemCode         String
+  fee              Decimal
+  amount           Decimal
+  labelName        String
+  country          String
+  category         UtilityCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  // @@unique([billerCode, billerName, itemCode, amount])
+}
+
+enum CategoryProvider {
+  FLUTTERWAVE
+  PAYSCRIBE
+  INNOVATE
+}
+
+enum CategoryName {
+  POWER
+  DATA
+  INTERNET
+  AIRTIME
+  CABLE
+}

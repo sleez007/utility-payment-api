@@ -21,9 +21,13 @@
     "migrate:dev": "npx prisma migrate dev",
     "db:dev:rm": "docker-compose rm -s -f -v dev_db",
     "db:dev:up": "docker-compose up -d dev_db",
-    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 1 && npm run migrate:dev"
+    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 1 && npm run migrate:dev && npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
     "@nestjs/core": "^9.0.0",
@@ -34,6 +38,8 @@
     "@nestjs/throttler": "^4.0.0",
     "@prisma/client": "^4.14.1",
     "argon2": "^0.30.3",
+    "aws-sdk": "^2.1399.0",
+    "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "passport": "^0.6.0",

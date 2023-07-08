@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDTO, CreateAccountDTO } from './dto/auth.dto';
 import * as argon from 'argon2';
 import { User } from '@prisma/client';
+import { EmailService } from 'src/aws/email/email.service';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +13,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly emailService: EmailService,
   ) {}
 
   async findUser(dto: AuthDTO) {
@@ -66,7 +68,11 @@ export class AuthService {
         email: dto.email,
       },
     });
-
+    await this.emailService.sendWelcomeEmail(
+      dto.email,
+      'Welcome baby',
+      dto.firstName,
+    );
     return {
       message: 'Your account has been created successfully',
       id: user.id,

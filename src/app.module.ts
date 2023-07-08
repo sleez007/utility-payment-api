@@ -6,6 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { JWTGuard } from './core/guards';
+import { AwsModule } from './aws/aws.module';
+import { FlutterwaveModule } from './flutterwave/flutterwave.module';
+import { ProductsModule } from './feature/products/products.module';
 
 @Module({
   imports: [
@@ -13,6 +16,8 @@ import { JWTGuard } from './core/guards';
     AuthModule,
     PrismaModule,
     PaymentModule,
+    AwsModule,
+    FlutterwaveModule,
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -21,6 +26,9 @@ import { JWTGuard } from './core/guards';
         limit: config.get('THROTTLE_LIMIT'),
       }),
     }),
+    AwsModule,
+    FlutterwaveModule,
+    ProductsModule,
   ],
   providers: [
     {
